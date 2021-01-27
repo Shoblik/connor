@@ -4,12 +4,11 @@ $(document).ready(function() {
 
 var animation = {
     frameCount: 0,
-    circleCount: 0,
+    squareCount: 0,
     containerWidth: null,
     containerHeight: null,
     animate: true,
-    createCircle: true,
-    removeCircle: true,
+    createSquare: true,
 
     init: function() {
         animation.containerWidth = $('#target').innerWidth();
@@ -21,10 +20,8 @@ var animation = {
     },
 
     frame: function() {
-        if (animation.createCircle) {
-            animation.createRandomCircle();
-        } else if (animation.removeCircle) {
-            animation.removeACircle();
+        if (animation.createSquare) {
+            animation.createRandomSquare();
         }
 
         if (animation.animate) {
@@ -32,43 +29,40 @@ var animation = {
         }
     },
 
-    createRandomCircle: function() {
-        animation.circleCount++;
+    createRandomSquare: function() {
+        animation.squareCount++;
 
-        if (animation.circleCount < 2500) {
+        if (animation.squareCount < 2500) {
             var coords = animation.getRandomPosition();
 
-            if (animation.circleCount % 30 === 0) {
+            if (animation.squareCount % 30 === 0) {
                 coords.x = 0;
             }
 
-            if (animation.circleCount % 31 === 0) {
+            if (animation.squareCount % 31 === 0) {
                 coords.y = 0;
             }
 
-            var circle = $('<circle>').addClass('circle').css({
+            var square = $('<square>').addClass('square').css({
                 top: coords.y,
                 left: coords.x
             });
 
-            $('#target').prepend(circle);
+            $('#target').prepend(square);
         } else {
             console.log('removing');
-            setTimeout(function() {
-                animation.createCircle = false;
-                animation.removeCircle = true
-            }, 2000);
+            animation.createSquare = false;
         }
     },
 
-    removeACircle: function() {
-        if (animation.circleCount > 0) {
-            $($('.circle')[animation.circleCount - 1]).remove();
-            animation.circleCount--;
+    removeASquare: function() {
+        if (animation.squareCount > 0) {
+            $($('.square')[animation.squareCount - 1]).remove();
+            animation.squareCount--;
         } else {
             setTimeout(function() {
-                animation.createCircle = true;
-                animation.removeCircle = false;
+                animation.createSquare = true;
+                animation.removeSquare = false;
             }, 2000);
         }
     },

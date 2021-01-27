@@ -21,7 +21,7 @@ main {
     position: relative;
     overflow: hidden;
 }
-.circle {
+.square {
     width: 100px;
     height: 100px;
     background-color: lightcoral;
