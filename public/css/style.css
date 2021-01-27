@@ -1,0 +1,52 @@
+html, body {
+    height: 100%;
+    width: 100%;
+}
+body {
+    margin: 0;
+    padding: 0;
+    background-color: black;
+}
+* {
+    font-family: 'Poppins', sans-serif;
+}
+main {
+    width: 100%;
+    height: 100%;
+    position: relative;
+}
+.landing-container {
+    width: 100%;
+    height: 100%;
+    position: relative;
+    overflow: hidden;
+}
+.circle {
+    width: 100px;
+    height: 100px;
+    background-color: lightcoral;
+    position: absolute;
+    border: 2px solid cyan;
+}
+.connor-container h1:last-child {
+    text-align: center;
+}
+
+.connor-container h1:first-child {
+    text-align: center;
+}
+.connor-container h1 {
+    font-size: 8vw;
+    position: relative;
+    z-index: 100000;
+    margin: 0;
+    line-height: 1;
+}
+.connor-container {
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    z-index: 10;
+    color: black;
+}
