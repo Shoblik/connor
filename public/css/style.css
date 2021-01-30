@@ -21,6 +21,9 @@ main {
     position: relative;
     overflow: hidden;
 }
+.double {
+    height: 400%;
+}
 .square {
     width: 100px;
     height: 100px;
@@ -41,6 +44,8 @@ main {
     z-index: 100000;
     margin: 0;
     line-height: 1;
+    width: 100%;
+    text-align: center;
 }
 .connor-container {
     position: absolute;
@@ -49,10 +54,14 @@ main {
     transform: translate(-50%, -50%);
     z-index: 10;
     color: black;
+    width: 100%;
 }
 .rainDrop {
     width: 10px;
     height: 10px;
     background-color: lightblue;
     position: absolute;
+}
+.flip {
+    transform: rotateX(360deg);
 }

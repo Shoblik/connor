@@ -12,6 +12,8 @@ var animation = {
     squareCount: 0,
     containerWidth: null,
     containerHeight: null,
+    fallingContainerWidth: null,
+    fallingContainerHeight: null,
     animate: true,
     createSquare: true,
     rain: false,
@@ -25,10 +27,16 @@ var animation = {
     init: function() {
         animation.containerWidth = $('#target').innerWidth();
         animation.containerHeight = $('#target').innerHeight();
+        animation.fallingContainerWidth = $('#rainTarget').innerWidth();
+        animation.fallingContainerHeight = $('#rainTarget').innerHeight();
 
         setTimeout(function() {
             requestAnimationFrame(animation.frame);
         }, 500)
+
+        $('.square').on('mouseenter', function() {
+            animation.flipSquare(event);
+        })
     },
 
     frame: function() {
@@ -48,37 +56,27 @@ var animation = {
     },
 
     createRandomSquare: function() {
-        var nextX = null;
-        var nextY = null;
-
         animation.squareCount++;
 
-        if (animation.currentX + animation.squareSize >= animation.containerWidth) {
-            nextX = 0;
-            animation.currentX = 0;
-            nextY = animation.currentY += animation.squareSize;
+        var square = $('<square>').addClass('square').css({
+            top: animation.currentY,
+            left: animation.currentX
+        });
 
-            if (nextY > animation.containerHeight) {
+        $('#target').prepend(square);
+
+        if (animation.currentX + animation.squareSize >= animation.containerWidth) {
+            animation.currentX = 0;
+            animation.currentY += animation.squareSize;
+
+            if (animation.currentY > animation.containerHeight) {
                 animation.createSquare = false;
                 console.log('filled pane');
             }
 
         } else {
-            nextX = animation.currentX += animation.squareSize;
-            nextY = animation.currentY;
+            animation.currentX += animation.squareSize;
         }
-
-        var coords = {
-            x: nextX,
-            y: nextY
-        };
-
-        var square = $('<square>').addClass('square').css({
-            top: nextY,
-            left: nextX
-        });
-
-        $('#target').prepend(square);
 
     },
 
@@ -94,15 +92,20 @@ var animation = {
     },
 
     createRainDrop: function() {
-        if (animation.frameCount % 10 === 0) {
+        if (animation.frameCount % 2 === 0) {
             animation.collectRainWater();
 
             var randomId = animation.getRandomNumber(10000, 99999);
 
             var rainDrop = $('<div>').addClass('square').css({
                 top: '-100px',
-                left: animation.getRandomNumber(0, animation.containerWidth),
-            }).attr('id', 'drop' + randomId);
+                left: animation.getRandomNumber(0, animation.fallingContainerWidth),
+            }).attr('id', 'drop' + randomId).on('hover', function(event) {
+
+                $(event.target).css('background-color', 'black');
+                console.log('dead');
+
+            });
 
             $('#rainTarget').prepend(rainDrop);
 
@@ -115,7 +118,7 @@ var animation = {
     moveRainDrops: function() {
         for (var i = 0; i < animation.rainDrops.length; i++) {
             // get the current y position
-            var nextYPos = Number($('#' + animation.rainDrops[i]).css('top').slice(0, -2)) + Number(15);
+            var nextYPos = Number($('#' + animation.rainDrops[i]).css('top').slice(0, -2)) + Number(30);
 
             $('#' + animation.rainDrops[i]).css({
                 top: nextYPos + 'px',
@@ -128,7 +131,7 @@ var animation = {
 
             var nextPos = Number($('#' + animation.rainDrops[i]).css('top').slice(0, -2)) + Number(15);
 
-            if (nextPos > animation.containerHeight) {
+            if (nextPos > animation.fallingContainerHeight) {
                 $('#' + animation.rainDrops[i]).remove();
                 animation.rainDrops.splice(animation.rainDrops.indexOf(animation.rainDrops[i]), 1);
                 console.log('killing in the name of')
@@ -136,6 +139,10 @@ var animation = {
             }
 
         }
+    },
+
+    flipSquare: function(e) {
+        $(e.target).addClass('flip');
     }
 }
 
