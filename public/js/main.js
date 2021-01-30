@@ -15,6 +15,9 @@ var animation = {
     animate: true,
     createSquare: true,
     rain: false,
+    squareSize: 100,
+    currentX: 0,
+    currentY: 0,
     rainDrops: [
 
     ],
@@ -45,26 +48,38 @@ var animation = {
     },
 
     createRandomSquare: function() {
-            animation.squareCount++;
+        var nextX = null;
+        var nextY = null;
 
-        if (animation.squareCount < 1500) {
-            var coords = animation.getRandomPosition();
+        animation.squareCount++;
 
-            if (animation.squareCount % 30 === 0) coords.x = 0;
+        if (animation.currentX + animation.squareSize >= animation.containerWidth) {
+            nextX = 0;
+            animation.currentX = 0;
+            nextY = animation.currentY += animation.squareSize;
 
-            if (animation.squareCount % 31 === 0) coords.y = 0;
-
-            var square = $('<square>').addClass('square').css({
-                top: coords.y,
-                left: coords.x
-            });
-
-            $('#target').prepend(square);
+            if (nextY > animation.containerHeight) {
+                animation.createSquare = false;
+                console.log('filled pane');
+            }
 
         } else {
-            console.log('Done with squares');
-            animation.createSquare = false;
+            nextX = animation.currentX += animation.squareSize;
+            nextY = animation.currentY;
         }
+
+        var coords = {
+            x: nextX,
+            y: nextY
+        };
+
+        var square = $('<square>').addClass('square').css({
+            top: nextY,
+            left: nextX
+        });
+
+        $('#target').prepend(square);
+
     },
 
     getRandomPosition: function() {
