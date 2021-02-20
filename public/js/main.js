@@ -2,9 +2,11 @@ $(document).ready(function() {
     animation.init();
 })
 
-$(window).on('scroll',function() {
-    animation.rain = true;
-    $(window).off();
+$(window).scroll(function() {
+
+    if($(window).scrollTop() >= $(window).height() - Number(400)) {
+        animation.showSaveConnorButton();
+    }
 });
 
 var animation = {
@@ -20,9 +22,11 @@ var animation = {
     squareSize: 100,
     currentX: 0,
     currentY: 0,
+    killCount: 0,
     rainDrops: [
 
     ],
+    connorDropSpeed: 10,
 
     init: function() {
         animation.containerWidth = $('#target').innerWidth();
@@ -36,6 +40,10 @@ var animation = {
 
         $('.square').on('mouseenter', function() {
             animation.flipSquare(event);
+        })
+
+        $('.spare-connor').on('click', function() {
+            animation.speedConnorUp();
         })
     },
 
@@ -72,11 +80,21 @@ var animation = {
             if (animation.currentY > animation.containerHeight) {
                 animation.createSquare = false;
                 console.log('filled pane');
+                animation.rotateTarget();
             }
 
         } else {
             animation.currentX += animation.squareSize;
         }
+
+    },
+
+    rotateTarget: function() {
+        $('#target').css({
+            transition: '.6s',
+            transform: 'rotateZ(90deg)'
+        });
+        animation.rain = true;
 
     },
 
@@ -92,7 +110,7 @@ var animation = {
     },
 
     createRainDrop: function() {
-        if (animation.frameCount % 5 === 0) {
+        if (animation.frameCount % 10 === 0) {
             animation.collectRainWater();
 
             var randomId = animation.getRandomNumber(10000, 99999);
@@ -118,22 +136,23 @@ var animation = {
     moveRainDrops: function() {
         for (var i = 0; i < animation.rainDrops.length; i++) {
             // get the current y position
-            var nextYPos = Number($('#' + animation.rainDrops[i]).css('top').slice(0, -2)) + Number(10);
+            var nextYPos = Number($('#' + animation.rainDrops[i]).css('top').slice(0, -2)) + Number(animation.connorDropSpeed);
 
             $('#' + animation.rainDrops[i]).css({
                 top: nextYPos + 'px',
             });
-
         }
     },
 
     collectRainWater: function() {
         for (var i = 0; i < animation.rainDrops.length; i++) {
 
-            var nextPos = Number($('#' + animation.rainDrops[i]).css('top').slice(0, -2)) + Number(15);
+            var nextPos = Number($('#' + animation.rainDrops[i]).css('top').slice(0, -2)) + Number(10);
 
             if (nextPos > animation.fallingContainerHeight) {
                 $('#' + animation.rainDrops[i]).remove();
+                animation.killCount++;
+                animation.updateKillCount();
                 animation.rainDrops.splice(animation.rainDrops.indexOf(animation.rainDrops[i]), 1);
                 console.log('killing in the name of')
                 console.log($('#rainTarget').children().length)
@@ -144,6 +163,21 @@ var animation = {
 
     flipSquare: function(e) {
         $(e.target).addClass('flip');
+    },
+
+    showSaveConnorButton: function() {
+        $('.spare-connor-container').css('opacity', .8);
+    },
+
+    speedConnorUp: function() {
+        $('.spare-connor').addClass('active')
+        setTimeout(function() {
+            $('.spare-connor').removeClass('active')
+        }, 300);
+        animation.connorDropSpeed += 10;
+    },
+    updateKillCount: function() {
+        $('#killCount').text(animation.killCount);
     }
 }
 

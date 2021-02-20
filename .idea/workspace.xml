@@ -2,6 +2,11 @@
 <project version="4">
   <component name="ChangeListManager">
     <list default="true" id="c33abf79-c24d-455e-a043-40d62773aab1" name="Default Changelist" comment="">
+      <change afterPath="$PROJECT_DIR$/public/favicon.ico" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/public/img/climbing.jpg" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/public/img/connor.png" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/public/img/connor_transparent_compressed.png" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/public/img/fire.gif" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/public/css/style.css" beforeDir="false" afterPath="$PROJECT_DIR$/public/css/style.css" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/public/index.html" beforeDir="false" afterPath="$PROJECT_DIR$/public/index.html" afterDir="false" />
@@ -36,12 +41,17 @@
     <property name="DefaultHtmlFileTemplate" value="HTML File" />
     <property name="RunOnceActivity.OpenProjectViewOnStart" value="true" />
     <property name="WebServerToolWindowFactoryState" value="false" />
-    <property name="last_opened_file_path" value="$PROJECT_DIR$" />
+    <property name="last_opened_file_path" value="$PROJECT_DIR$/public" />
     <property name="list.type.of.created.stylesheet" value="CSS" />
     <property name="vue.rearranger.settings.migration" value="true" />
   </component>
   <component name="RecentsManager">
+    <key name="CopyFile.RECENT_KEYS">
+      <recent name="C:\Users\shobl\code\connorkormos\public" />
+      <recent name="C:\Users\shobl\code\connorkormos\public\img" />
+    </key>
     <key name="MoveFile.RECENT_KEYS">
+      <recent name="C:\Users\shobl\code\connorkormos\public\img" />
       <recent name="C:\Users\shobl\code\connorkormos\public" />
     </key>
   </component>
@@ -60,7 +70,7 @@
       <workItem from="1612031713417" duration="5384000" />
       <workItem from="1612208009629" duration="2171000" />
       <workItem from="1612811159536" duration="40000" />
-      <workItem from="1613851137254" duration="529000" />
+      <workItem from="1613851137254" duration="7641000" />
     </task>
     <servers />
   </component>
