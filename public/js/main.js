@@ -92,7 +92,7 @@ var animation = {
     },
 
     createRainDrop: function() {
-        if (animation.frameCount % 2 === 0) {
+        if (animation.frameCount % 5 === 0) {
             animation.collectRainWater();
 
             var randomId = animation.getRandomNumber(10000, 99999);
@@ -118,11 +118,12 @@ var animation = {
     moveRainDrops: function() {
         for (var i = 0; i < animation.rainDrops.length; i++) {
             // get the current y position
-            var nextYPos = Number($('#' + animation.rainDrops[i]).css('top').slice(0, -2)) + Number(30);
+            var nextYPos = Number($('#' + animation.rainDrops[i]).css('top').slice(0, -2)) + Number(10);
 
             $('#' + animation.rainDrops[i]).css({
                 top: nextYPos + 'px',
-            })
+            });
+
         }
     },
 
