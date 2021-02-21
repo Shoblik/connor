@@ -26,7 +26,7 @@ var animation = {
     rainDrops: [
 
     ],
-    stepSize: .09,
+    stepSize: .05,
     connorDropSpeed: 10,
 
     init: function() {
@@ -115,13 +115,21 @@ var animation = {
             animation.collectRainWater();
 
             var randomId = animation.getRandomNumber(10000, 99999);
+            var randomRotateDir = animation.getRandomNumber(-1, 1);
+            var dirVal = 1;
+
+            if (randomRotateDir) {
+                dirVal = -1;
+            }
 
             var rainDrop = $('<div>').addClass('square').css({
                 top: '-100px',
                 left: animation.getRandomNumber(0, animation.fallingContainerWidth),
             }).attr({
                 id: 'drop' + randomId,
-                step: 1
+                step: 1,
+                rotateDirVal: 0,
+                rotateDir: dirVal
             }).on('hover', function(event) {
 
                 $(event.target).css('background-color', 'black');
@@ -140,15 +148,20 @@ var animation = {
     moveRainDrops: function() {
         for (var i = 0; i < animation.rainDrops.length; i++) {
             var step = Number($('#' + animation.rainDrops[i]).attr('step')) + animation.stepSize;
+            var rotateDirVal = Number($('#' + animation.rainDrops[i]).attr('rotateDirVal')) + Number($('#' + animation.rainDrops[i]).attr('rotateDir'))
 
             // get the current y position
             var nextYPos = Number($('#' + animation.rainDrops[i]).css('top').slice(0, -2)) + Number(step);
 
             $('#' + animation.rainDrops[i]).css({
                 top: nextYPos + 'px',
+                transform: 'rotate('+ rotateDirVal +'deg)'
             });
 
-            $('#' + animation.rainDrops[i]).attr('step', step);
+            $('#' + animation.rainDrops[i]).attr({
+                step: step,
+                rotateDirVal: rotateDirVal
+            });
 
         }
 
