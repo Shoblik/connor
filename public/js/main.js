@@ -28,12 +28,15 @@ var animation = {
     ],
     stepSize: .05,
     connorDropSpeed: 10,
+    connorFunnel: 10,
 
     init: function() {
-        animation.containerWidth = $('#target').innerWidth();
-        animation.containerHeight = $('#target').innerHeight();
-        animation.fallingContainerWidth = $('#rainTarget').innerWidth();
-        animation.fallingContainerHeight = $('#rainTarget').innerHeight();
+        var target = $('#target');
+        var rainTarget = $('#rainTarget');
+        animation.containerWidth = target.innerWidth();
+        animation.containerHeight = target.innerHeight();
+        animation.fallingContainerWidth = rainTarget.innerWidth();
+        animation.fallingContainerHeight = rainTarget.innerHeight();
 
         setTimeout(function() {
             requestAnimationFrame(animation.frame);
@@ -111,7 +114,7 @@ var animation = {
     },
 
     createRainDrop: function() {
-        if (animation.frameCount % 10 === 0) {
+        if (animation.frameCount % animation.connorFunnel === 0) {
             animation.collectRainWater();
 
             var randomId = animation.getRandomNumber(10000, 99999);
@@ -124,7 +127,7 @@ var animation = {
 
             var rainDrop = $('<div>').addClass('square').css({
                 top: '-100px',
-                left: animation.getRandomNumber(0, animation.fallingContainerWidth),
+                left: animation.getRandomNumber(0, animation.fallingContainerWidth - 80),
             }).attr({
                 id: 'drop' + randomId,
                 step: 1,
@@ -147,18 +150,19 @@ var animation = {
 
     moveRainDrops: function() {
         for (var i = 0; i < animation.rainDrops.length; i++) {
-            var step = Number($('#' + animation.rainDrops[i]).attr('step')) + animation.stepSize;
-            var rotateDirVal = Number($('#' + animation.rainDrops[i]).attr('rotateDirVal')) + Number($('#' + animation.rainDrops[i]).attr('rotateDir'))
+            var rainDrop = $('#' + animation.rainDrops[i]);
+            var step = Number(rainDrop.attr('step')) + animation.stepSize;
+            var rotateDirVal = Number(rainDrop.attr('rotateDirVal')) + Number(rainDrop.attr('rotateDir'))
 
             // get the current y position
-            var nextYPos = Number($('#' + animation.rainDrops[i]).css('top').slice(0, -2)) + Number(step);
+            var nextYPos = Number(rainDrop.css('top').slice(0, -2)) + Number(step);
 
-            $('#' + animation.rainDrops[i]).css({
+            rainDrop.css({
                 top: nextYPos + 'px',
                 transform: 'rotate('+ rotateDirVal +'deg)'
             });
 
-            $('#' + animation.rainDrops[i]).attr({
+            rainDrop.attr({
                 step: step,
                 rotateDirVal: rotateDirVal
             });
@@ -169,18 +173,15 @@ var animation = {
 
     collectRainWater: function() {
         for (var i = 0; i < animation.rainDrops.length; i++) {
-
-            var nextPos = Number($('#' + animation.rainDrops[i]).css('top').slice(0, -2)) + Number(10);
+            var rainDrop = $('#' + animation.rainDrops[i]);
+            var nextPos = Number(rainDrop.css('top').slice(0, -2)) + Number(10);
 
             if (nextPos > animation.fallingContainerHeight) {
-                $('#' + animation.rainDrops[i]).remove();
+                rainDrop.remove();
                 animation.killCount++;
                 animation.updateKillCount();
                 animation.rainDrops.splice(animation.rainDrops.indexOf(animation.rainDrops[i]), 1);
-                console.log('killing in the name of')
-                console.log($('#rainTarget').children().length)
             }
-
         }
     },
 
