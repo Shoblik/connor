@@ -26,6 +26,7 @@ var animation = {
     rainDrops: [
 
     ],
+    stepSize: .09,
     connorDropSpeed: 10,
 
     init: function() {
@@ -118,7 +119,10 @@ var animation = {
             var rainDrop = $('<div>').addClass('square').css({
                 top: '-100px',
                 left: animation.getRandomNumber(0, animation.fallingContainerWidth),
-            }).attr('id', 'drop' + randomId).on('hover', function(event) {
+            }).attr({
+                id: 'drop' + randomId,
+                step: 1
+            }).on('hover', function(event) {
 
                 $(event.target).css('background-color', 'black');
                 console.log('dead');
@@ -135,13 +139,19 @@ var animation = {
 
     moveRainDrops: function() {
         for (var i = 0; i < animation.rainDrops.length; i++) {
+            var step = Number($('#' + animation.rainDrops[i]).attr('step')) + animation.stepSize;
+
             // get the current y position
-            var nextYPos = Number($('#' + animation.rainDrops[i]).css('top').slice(0, -2)) + Number(animation.connorDropSpeed);
+            var nextYPos = Number($('#' + animation.rainDrops[i]).css('top').slice(0, -2)) + Number(step);
 
             $('#' + animation.rainDrops[i]).css({
                 top: nextYPos + 'px',
             });
+
+            $('#' + animation.rainDrops[i]).attr('step', step);
+
         }
+
     },
 
     collectRainWater: function() {
@@ -174,7 +184,7 @@ var animation = {
         setTimeout(function() {
             $('.spare-connor').removeClass('active')
         }, 300);
-        animation.connorDropSpeed += 10;
+        animation.stepSize += .1;
     },
     updateKillCount: function() {
         $('#killCount').text(animation.killCount);
